@@ -1,0 +1,99 @@
+// use prisma-8
+enum PaymentMethod {
+  CREDIT_CARD
+  DEBIT_CARD
+  PIX
+  CASH
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  CANCELLED
+}
+
+enum Role {
+  ADMIN
+  EMPLOYEE
+}
+
+model Employee {
+  id        Uuid     @id @onCreate(uuid(7))
+  name      String
+  email     String   @unique
+  role      Role
+  createdAt DateTime @default(now()) @onCreate(now())
+  updatedAt DateTime @default(now()) @onUpdate(now())
+}
+
+model Customer {
+  id        Uuid     @id @onCreate(uuid(7))
+  name      String
+  email     String   @unique
+  address   String
+  createdAt DateTime @default(now()) @onCreate(now())
+  updatedAt DateTime @default(now()) @onUpdate(now())
+
+  Orders    Order[]
+}
+
+model Order {
+  id          Uuid        @id @onCreate(uuid(7))
+  customerId  Uuid
+  totalAmount Decimal
+  status      String
+  createdAt   DateTime    @default(now()) @onCreate(now())
+  updatedAt   DateTime    @default(now()) @onUpdate(now())
+
+  customer    Customer    @relation(fields: [customerId], references: [id])
+  OrderItems  OrderItem[]
+  payment     Payment?
+}
+
+model OrderItem {
+  id        Uuid     @id @onCreate(uuid(7))
+  orderId   Uuid
+  productId Uuid
+  quantity  Int
+  price     Decimal
+  subtotal  Decimal
+  createdAt DateTime @default(now()) @onCreate(now())
+  updatedAt DateTime @default(now()) @onUpdate(now())
+
+  order     Order    @relation(fields: [orderId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+}
+
+model Product {
+  id          Uuid     @id @onCreate(uuid(7))
+  name        String
+  description String
+  price       Decimal
+  imageUrl    String
+  createdAt   DateTime @default(now()) @onCreate(now())
+  updatedAt   DateTime @default(now()) @onUpdate(now())
+
+  categoryId  Uuid
+  category    Category @relation(fields: [categoryId], references: [id], name: "products")
+}
+
+model Category {
+  id        Uuid      @id @onCreate(uuid(7))
+  name      String
+  createdAt DateTime  @default(now()) @onCreate(now())
+  updatedAt DateTime  @default(now()) @onUpdate(now())
+
+  products  Product[] @relation(name: "products")
+}
+
+model Payment {
+  paymentId     Uuid          @id @onCreate(uuid(7))
+  paymentMethod PaymentMethod
+  amount        Decimal
+  status        PaymentStatus
+  createdAt     DateTime      @default(now()) @onCreate(now())
+  paidAt        DateTime?
+
+  order         Order         @relation(fields: [paymentId], references: [id])
+}
