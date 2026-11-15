@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CategoryRepository } from './category.repository.js';
-import type { CategorySummary } from './category.repository.interface.js';
+import { CategorySummary } from './interfaces.js';
 
 @Injectable()
 export class CategoryService {

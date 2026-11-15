@@ -1,8 +1,5 @@
 
-export interface CategorySummary {
-    id: string;
-    name: string;
-}
+import type { CategorySummary } from './interfaces.js';
 
 export interface CategoryRepositoryInterface {
     createCategory(name:string): Promise<string>;

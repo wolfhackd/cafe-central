@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CategoryService } from './category.service.js';
-import type { CategorySummary } from './category.repository.interface.js';
+import { CategorySummary } from './interfaces.js';
 
 
 @Controller("/category")
