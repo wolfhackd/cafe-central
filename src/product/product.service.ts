@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { ProductRepository } from "./product.repository.js";
-import type { CreateProductInput, Product } from "./product.repository.interface.js";
 import { CategoryRepository } from "../category/category.repository.js";
+import { CreateProductInput, Product } from "./interfaces.js";
 
 @Injectable()
 export class ProductService {
@@ -25,5 +25,9 @@ export class ProductService {
             throw new BadRequestException("Category ID does not exist");
         }
         return await this.productRepository.createProduct(input);
+    }
+
+    async findAllProducts(): Promise<Product[]> {
+        return await this.productRepository.findAllProducts() 
     }
 }

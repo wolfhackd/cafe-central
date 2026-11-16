@@ -22,4 +22,17 @@ export class ProductRepository implements ProductRepositoryInterface {
         };
         return product;
     }
+
+    async findAllProducts(): Promise<Product[]> {
+        const res = await this.prisma.db.orm.public.Product.all();
+        const products: Product[] = res.map((item) => ({
+            id: item.id,
+            name: item.name,
+            description: item.description,
+            price: parseFloat(item.price),
+            categoryId: item.categoryId,
+            imageUrl: item.imageUrl
+        }));
+        return products;
+    }
 }
