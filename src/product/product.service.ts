@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { ProductRepository } from "./product.repository.js";
 import { CategoryRepository } from "../category/category.repository.js";
 import { CreateProductInput, Product } from "./interfaces.js";
@@ -31,11 +31,18 @@ export class ProductService {
         return await this.productRepository.findAllProducts() 
     }
 
-    async findProductById(id: string): Promise<Product | null>{
+    async findProductById(id: string): Promise<Product>{
         const res = await this.productRepository.findProductById(id);
         if(!res){
-            throw new BadRequestException("Product ID does not exist");
+            throw new NotFoundException("Product ID does not exist");
         }
         return res;
+    }
+
+    async deleteProductById(id: string): Promise<void> {
+        const deleted = await this.productRepository.deleteProductById(id);
+        if (!deleted) {
+            throw new NotFoundException("Product ID does not exist");
+        }
     }
 }

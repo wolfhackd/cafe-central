@@ -49,4 +49,9 @@ export class ProductRepository implements ProductRepositoryInterface {
         } : null;
         return product;
     }
+
+    async deleteProductById(id: string): Promise<boolean> {
+        const deleted = await this.prisma.db.orm.public.Product.whereUnique({ id }).delete();
+        return deleted !== null;
+    }
 }
