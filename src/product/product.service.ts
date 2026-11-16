@@ -30,4 +30,12 @@ export class ProductService {
     async findAllProducts(): Promise<Product[]> {
         return await this.productRepository.findAllProducts() 
     }
+
+    async findProductById(id: string): Promise<Product | null>{
+        const res = await this.productRepository.findProductById(id);
+        if(!res){
+            throw new BadRequestException("Product ID does not exist");
+        }
+        return res;
+    }
 }

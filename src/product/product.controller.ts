@@ -2,6 +2,7 @@ import {
     Body,
     Controller,
     Get,
+    Param,
     Post,
     StandardSchemaValidationPipe,
 } from "@nestjs/common";
@@ -23,9 +24,15 @@ export class ProductController {
     ): Promise<Product> {
         return this.productService.createProduct(body);
     }
+    
+    @Get(":id")
+    async findProductById(@Param("id") id: string): Promise<Product | null> {
+        return await this.productService.findProductById(id);
+    }
 
     @Get()
     async findAllProducts(): Promise<Product[]> {
         return await this.productService.findAllProducts();
     }
+
 }

@@ -35,4 +35,18 @@ export class ProductRepository implements ProductRepositoryInterface {
         }));
         return products;
     }
+
+    async findProductById(id: string): Promise<Product | null> {
+        const res = await this.prisma.db.orm.public.Product.first({ id });
+
+        const product: Product | null = res ? {
+            id: res.id,
+            name: res.name,
+            description: res.description,
+            price: parseFloat(res.price),
+            categoryId: res.categoryId,
+            imageUrl: res.imageUrl
+        } : null;
+        return product;
+    }
 }
