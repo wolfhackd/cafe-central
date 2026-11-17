@@ -40,5 +40,5 @@ export class ProductController {
     async deleteProductById(@Param("id") id: string): Promise<void> {
         await this.productService.deleteProductById(id);
     }
-
+    
 }

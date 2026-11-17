@@ -23,7 +23,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'e4042e51cef8e27dc68903094e94aa65c46ee47bd645fc2b8e38e86e500f3243'>;
+  StorageHashBase<'e98a9147e3d39a69780a1b5d6fd3f51b5f29d5e8862304f5f1f8c02ddec66106'>;
 export type ExecutionHash =
   ExecutionHashBase<'0997782d8ec9f4a20553ea42631666fee8cf8cddf7e63e8783327c5374d1271f'>;
 export type ProfileHash =
@@ -363,6 +363,7 @@ export namespace Models {
     email: FieldOutputTypes['public']['Customer']['email'];
     id: FieldOutputTypes['public']['Customer']['id'];
     name: FieldOutputTypes['public']['Customer']['name'];
+    password: FieldOutputTypes['public']['Customer']['password'];
     updatedAt: FieldOutputTypes['public']['Customer']['updatedAt'];
     Orders: public_Order[];
     readonly [RelationKeys]?: 'Orders';
@@ -372,6 +373,7 @@ export namespace Models {
     email: FieldOutputTypes['public']['Employee']['email'];
     id: FieldOutputTypes['public']['Employee']['id'];
     name: FieldOutputTypes['public']['Employee']['name'];
+    password: FieldOutputTypes['public']['Employee']['password'];
     role: FieldOutputTypes['public']['Employee']['role'];
     updatedAt: FieldOutputTypes['public']['Employee']['updatedAt'];
     readonly [RelationKeys]?: never;
@@ -392,10 +394,10 @@ export namespace Models {
     createdAt: FieldOutputTypes['public']['OrderItem']['createdAt'];
     id: FieldOutputTypes['public']['OrderItem']['id'];
     orderId: FieldOutputTypes['public']['OrderItem']['orderId'];
-    price: FieldOutputTypes['public']['OrderItem']['price'];
     productId: FieldOutputTypes['public']['OrderItem']['productId'];
     quantity: FieldOutputTypes['public']['OrderItem']['quantity'];
     subtotal: FieldOutputTypes['public']['OrderItem']['subtotal'];
+    unitPrice: FieldOutputTypes['public']['OrderItem']['unitPrice'];
     updatedAt: FieldOutputTypes['public']['OrderItem']['updatedAt'];
     order: public_Order;
     product: public_Product;
@@ -525,6 +527,12 @@ type ContractBase = Omit<
                   readonly nullable: false;
                   readonly many: false;
                 };
+                readonly password: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
                 readonly updatedAt: {
                   readonly dataType: 'pg/timestamptz';
                   readonly codecId: 'pg/timestamptz-date@1';
@@ -562,6 +570,12 @@ type ContractBase = Omit<
                   readonly many: false;
                 };
                 readonly name: {
+                  readonly dataType: 'pg/text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly password: {
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: false;
@@ -677,12 +691,6 @@ type ContractBase = Omit<
                   readonly nullable: false;
                   readonly many: false;
                 };
-                readonly price: {
-                  readonly dataType: 'pg/numeric';
-                  readonly codecId: 'pg/numeric@1';
-                  readonly nullable: false;
-                  readonly many: false;
-                };
                 readonly productId: {
                   readonly dataType: 'pg/uuid';
                   readonly codecId: 'pg/uuid@1';
@@ -696,6 +704,12 @@ type ContractBase = Omit<
                   readonly many: false;
                 };
                 readonly subtotal: {
+                  readonly dataType: 'pg/numeric';
+                  readonly codecId: 'pg/numeric@1';
+                  readonly nullable: false;
+                  readonly many: false;
+                };
+                readonly unitPrice: {
                   readonly dataType: 'pg/numeric';
                   readonly codecId: 'pg/numeric@1';
                   readonly nullable: false;
@@ -1007,6 +1021,10 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
+              readonly password: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
               readonly updatedAt: {
                 readonly nullable: false;
                 readonly type: {
@@ -1038,6 +1056,7 @@ type ContractBase = Omit<
                 readonly email: { readonly column: 'email' };
                 readonly id: { readonly column: 'id' };
                 readonly name: { readonly column: 'name' };
+                readonly password: { readonly column: 'password' };
                 readonly updatedAt: { readonly column: 'updatedAt' };
               };
             };
@@ -1064,6 +1083,10 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
+              readonly password: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
               readonly role: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
@@ -1086,6 +1109,7 @@ type ContractBase = Omit<
                 readonly email: { readonly column: 'email' };
                 readonly id: { readonly column: 'id' };
                 readonly name: { readonly column: 'name' };
+                readonly password: { readonly column: 'password' };
                 readonly role: { readonly column: 'role' };
                 readonly updatedAt: { readonly column: 'updatedAt' };
               };
@@ -1194,10 +1218,6 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/uuid@1' };
               };
-              readonly price: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/numeric@1' };
-              };
               readonly productId: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/uuid@1' };
@@ -1207,6 +1227,10 @@ type ContractBase = Omit<
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
               };
               readonly subtotal: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/numeric@1' };
+              };
+              readonly unitPrice: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/numeric@1' };
               };
@@ -1252,10 +1276,10 @@ type ContractBase = Omit<
                 readonly createdAt: { readonly column: 'createdAt' };
                 readonly id: { readonly column: 'id' };
                 readonly orderId: { readonly column: 'orderId' };
-                readonly price: { readonly column: 'price' };
                 readonly productId: { readonly column: 'productId' };
                 readonly quantity: { readonly column: 'quantity' };
                 readonly subtotal: { readonly column: 'subtotal' };
+                readonly unitPrice: { readonly column: 'unitPrice' };
                 readonly updatedAt: { readonly column: 'updatedAt' };
               };
             };

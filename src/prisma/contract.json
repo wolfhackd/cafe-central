@@ -207,6 +207,13 @@
                   "kind": "scalar"
                 }
               },
+              "password": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
               "updatedAt": {
                 "nullable": false,
                 "type": {
@@ -252,6 +259,9 @@
                 "name": {
                   "column": "name"
                 },
+                "password": {
+                  "column": "password"
+                },
                 "updatedAt": {
                   "column": "updatedAt"
                 }
@@ -287,6 +297,13 @@
                 }
               },
               "name": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "password": {
                 "nullable": false,
                 "type": {
                   "codecId": "pg/text@1",
@@ -331,6 +348,9 @@
                 },
                 "name": {
                   "column": "name"
+                },
+                "password": {
+                  "column": "password"
                 },
                 "role": {
                   "column": "role"
@@ -494,13 +514,6 @@
                   "kind": "scalar"
                 }
               },
-              "price": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/numeric@1",
-                  "kind": "scalar"
-                }
-              },
               "productId": {
                 "nullable": false,
                 "type": {
@@ -516,6 +529,13 @@
                 }
               },
               "subtotal": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/numeric@1",
+                  "kind": "scalar"
+                }
+              },
+              "unitPrice": {
                 "nullable": false,
                 "type": {
                   "codecId": "pg/numeric@1",
@@ -578,9 +598,6 @@
                 "orderId": {
                   "column": "orderId"
                 },
-                "price": {
-                  "column": "price"
-                },
                 "productId": {
                   "column": "productId"
                 },
@@ -589,6 +606,9 @@
                 },
                 "subtotal": {
                   "column": "subtotal"
+                },
+                "unitPrice": {
+                  "column": "unitPrice"
                 },
                 "updatedAt": {
                   "column": "updatedAt"
@@ -907,6 +927,11 @@
                   "dataType": "pg/text",
                   "nullable": false
                 },
+                "password": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
                 "updatedAt": {
                   "codecId": "pg/timestamptz-date@1",
                   "dataType": "pg/timestamptz",
@@ -967,6 +992,11 @@
                   "nullable": false
                 },
                 "name": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "password": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
                   "nullable": false
@@ -1119,11 +1149,6 @@
                   "dataType": "pg/uuid",
                   "nullable": false
                 },
-                "price": {
-                  "codecId": "pg/numeric@1",
-                  "dataType": "pg/numeric",
-                  "nullable": false
-                },
                 "productId": {
                   "codecId": "pg/uuid@1",
                   "dataType": "pg/uuid",
@@ -1135,6 +1160,11 @@
                   "nullable": false
                 },
                 "subtotal": {
+                  "codecId": "pg/numeric@1",
+                  "dataType": "pg/numeric",
+                  "nullable": false
+                },
+                "unitPrice": {
                   "codecId": "pg/numeric@1",
                   "dataType": "pg/numeric",
                   "nullable": false
@@ -1441,7 +1471,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "e4042e51cef8e27dc68903094e94aa65c46ee47bd645fc2b8e38e86e500f3243"
+    "storageHash": "e98a9147e3d39a69780a1b5d6fd3f51b5f29d5e8862304f5f1f8c02ddec66106"
   },
   "execution": {
     "executionHash": "0997782d8ec9f4a20553ea42631666fee8cf8cddf7e63e8783327c5374d1271f",
