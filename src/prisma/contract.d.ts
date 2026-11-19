@@ -23,9 +23,9 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'e98a9147e3d39a69780a1b5d6fd3f51b5f29d5e8862304f5f1f8c02ddec66106'>;
+  StorageHashBase<'bfd56fb9ecb9cfaf58bc51a127cac92f9056cebcb72f4493efdc5e1d7a7a625a'>;
 export type ExecutionHash =
-  ExecutionHashBase<'0997782d8ec9f4a20553ea42631666fee8cf8cddf7e63e8783327c5374d1271f'>;
+  ExecutionHashBase<'06654deed27fefcc9584a45c168af01b0e3fca1f23119438c544de58642b5369'>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
 
@@ -357,17 +357,6 @@ export namespace Models {
     products: public_Product[];
     readonly [RelationKeys]?: 'products';
   };
-  export type public_Customer = {
-    address: FieldOutputTypes['public']['Customer']['address'];
-    createdAt: FieldOutputTypes['public']['Customer']['createdAt'];
-    email: FieldOutputTypes['public']['Customer']['email'];
-    id: FieldOutputTypes['public']['Customer']['id'];
-    name: FieldOutputTypes['public']['Customer']['name'];
-    password: FieldOutputTypes['public']['Customer']['password'];
-    updatedAt: FieldOutputTypes['public']['Customer']['updatedAt'];
-    Orders: public_Order[];
-    readonly [RelationKeys]?: 'Orders';
-  };
   export type public_Employee = {
     createdAt: FieldOutputTypes['public']['Employee']['createdAt'];
     email: FieldOutputTypes['public']['Employee']['email'];
@@ -380,15 +369,13 @@ export namespace Models {
   };
   export type public_Order = {
     createdAt: FieldOutputTypes['public']['Order']['createdAt'];
-    customerId: FieldOutputTypes['public']['Order']['customerId'];
     id: FieldOutputTypes['public']['Order']['id'];
     status: FieldOutputTypes['public']['Order']['status'];
     totalAmount: FieldOutputTypes['public']['Order']['totalAmount'];
     updatedAt: FieldOutputTypes['public']['Order']['updatedAt'];
     OrderItems: public_OrderItem[];
-    customer: public_Customer;
     payment: public_Payment | null;
-    readonly [RelationKeys]?: 'OrderItems' | 'customer' | 'payment';
+    readonly [RelationKeys]?: 'OrderItems' | 'payment';
   };
   export type public_OrderItem = {
     createdAt: FieldOutputTypes['public']['OrderItem']['createdAt'];
@@ -430,7 +417,6 @@ export namespace Models {
 export declare const models: {
   public: {
     Category: Models.public_Category;
-    Customer: Models.public_Customer;
     Employee: Models.public_Employee;
     Order: Models.public_Order;
     OrderItem: Models.public_OrderItem;
@@ -490,60 +476,6 @@ type ContractBase = Omit<
               };
               primaryKey: { readonly columns: readonly ['id'] };
               uniques: readonly [];
-              indexes: readonly [];
-              foreignKeys: readonly [];
-            };
-            readonly Customer: {
-              columns: {
-                readonly address: {
-                  readonly dataType: 'pg/text';
-                  readonly codecId: 'pg/text@1';
-                  readonly nullable: false;
-                  readonly many: false;
-                };
-                readonly createdAt: {
-                  readonly dataType: 'pg/timestamptz';
-                  readonly codecId: 'pg/timestamptz-date@1';
-                  readonly nullable: false;
-                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
-                  readonly typeParams: { readonly precision: 3 };
-                  readonly many: false;
-                };
-                readonly email: {
-                  readonly dataType: 'pg/text';
-                  readonly codecId: 'pg/text@1';
-                  readonly nullable: false;
-                  readonly many: false;
-                };
-                readonly id: {
-                  readonly dataType: 'pg/uuid';
-                  readonly codecId: 'pg/uuid@1';
-                  readonly nullable: false;
-                  readonly many: false;
-                };
-                readonly name: {
-                  readonly dataType: 'pg/text';
-                  readonly codecId: 'pg/text@1';
-                  readonly nullable: false;
-                  readonly many: false;
-                };
-                readonly password: {
-                  readonly dataType: 'pg/text';
-                  readonly codecId: 'pg/text@1';
-                  readonly nullable: false;
-                  readonly many: false;
-                };
-                readonly updatedAt: {
-                  readonly dataType: 'pg/timestamptz';
-                  readonly codecId: 'pg/timestamptz-date@1';
-                  readonly nullable: false;
-                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
-                  readonly typeParams: { readonly precision: 3 };
-                  readonly many: false;
-                };
-              };
-              primaryKey: { readonly columns: readonly ['id'] };
-              uniques: readonly [{ readonly columns: readonly ['email'] }];
               indexes: readonly [];
               foreignKeys: readonly [];
             };
@@ -611,12 +543,6 @@ type ContractBase = Omit<
                   readonly typeParams: { readonly precision: 3 };
                   readonly many: false;
                 };
-                readonly customerId: {
-                  readonly dataType: 'pg/uuid';
-                  readonly codecId: 'pg/uuid@1';
-                  readonly nullable: false;
-                  readonly many: false;
-                };
                 readonly id: {
                   readonly dataType: 'pg/uuid';
                   readonly codecId: 'pg/uuid@1';
@@ -646,28 +572,8 @@ type ContractBase = Omit<
               };
               primaryKey: { readonly columns: readonly ['id'] };
               uniques: readonly [];
-              indexes: readonly [
-                {
-                  readonly name: 'Order_customerId_idx_b2a8a46c';
-                  readonly prefix: 'Order_customerId_idx';
-                  readonly columns: readonly ['customerId'];
-                  readonly unique: false;
-                },
-              ];
-              foreignKeys: readonly [
-                {
-                  readonly source: {
-                    readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'Order';
-                    readonly columns: readonly ['customerId'];
-                  };
-                  readonly target: {
-                    readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'Customer';
-                    readonly columns: readonly ['id'];
-                  };
-                },
-              ];
+              indexes: readonly [];
+              foreignKeys: readonly [];
             };
             readonly OrderItem: {
               columns: {
@@ -933,7 +839,6 @@ type ContractBase = Omit<
   readonly targetFamily: 'sql';
   readonly roots: {
     readonly Category: { readonly namespace: 'public' & NamespaceId; readonly model: 'Category' };
-    readonly Customer: { readonly namespace: 'public' & NamespaceId; readonly model: 'Customer' };
     readonly Employee: { readonly namespace: 'public' & NamespaceId; readonly model: 'Employee' };
     readonly Order: { readonly namespace: 'public' & NamespaceId; readonly model: 'Order' };
     readonly OrderItem: { readonly namespace: 'public' & NamespaceId; readonly model: 'OrderItem' };
@@ -991,72 +896,6 @@ type ContractBase = Omit<
                 readonly createdAt: { readonly column: 'createdAt' };
                 readonly id: { readonly column: 'id' };
                 readonly name: { readonly column: 'name' };
-                readonly updatedAt: { readonly column: 'updatedAt' };
-              };
-            };
-          };
-          readonly Customer: {
-            readonly fields: {
-              readonly address: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
-              };
-              readonly createdAt: {
-                readonly nullable: false;
-                readonly type: {
-                  readonly kind: 'scalar';
-                  readonly codecId: 'pg/timestamptz-date@1';
-                  readonly typeParams: { readonly precision: 3 };
-                };
-              };
-              readonly email: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
-              };
-              readonly id: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/uuid@1' };
-              };
-              readonly name: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
-              };
-              readonly password: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
-              };
-              readonly updatedAt: {
-                readonly nullable: false;
-                readonly type: {
-                  readonly kind: 'scalar';
-                  readonly codecId: 'pg/timestamptz-date@1';
-                  readonly typeParams: { readonly precision: 3 };
-                };
-              };
-            };
-            readonly relations: {
-              readonly Orders: {
-                readonly to: {
-                  readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'Order';
-                };
-                readonly cardinality: '1:N';
-                readonly on: {
-                  readonly localFields: readonly ['id'];
-                  readonly targetFields: readonly ['customerId'];
-                };
-              };
-            };
-            readonly storage: {
-              readonly table: 'Customer';
-              readonly namespaceId: 'public';
-              readonly fields: {
-                readonly address: { readonly column: 'address' };
-                readonly createdAt: { readonly column: 'createdAt' };
-                readonly email: { readonly column: 'email' };
-                readonly id: { readonly column: 'id' };
-                readonly name: { readonly column: 'name' };
-                readonly password: { readonly column: 'password' };
                 readonly updatedAt: { readonly column: 'updatedAt' };
               };
             };
@@ -1125,10 +964,6 @@ type ContractBase = Omit<
                   readonly typeParams: { readonly precision: 3 };
                 };
               };
-              readonly customerId: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/uuid@1' };
-              };
               readonly id: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/uuid@1' };
@@ -1162,18 +997,6 @@ type ContractBase = Omit<
                   readonly targetFields: readonly ['orderId'];
                 };
               };
-              readonly customer: {
-                readonly to: {
-                  readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'Customer';
-                };
-                readonly cardinality: 'N:1';
-                readonly nullable: false;
-                readonly on: {
-                  readonly localFields: readonly ['customerId'];
-                  readonly targetFields: readonly ['id'];
-                };
-              };
               readonly payment: {
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
@@ -1192,7 +1015,6 @@ type ContractBase = Omit<
               readonly namespaceId: 'public';
               readonly fields: {
                 readonly createdAt: { readonly column: 'createdAt' };
-                readonly customerId: { readonly column: 'customerId' };
                 readonly id: { readonly column: 'id' };
                 readonly status: { readonly column: 'status' };
                 readonly totalAmount: { readonly column: 'totalAmount' };
@@ -1528,38 +1350,6 @@ type ContractBase = Omit<
           };
           readonly ref: {
             readonly entry: 'Category';
-            readonly field: 'updatedAt';
-            readonly namespace: 'public';
-          };
-        },
-        {
-          readonly onCreate: {
-            readonly id: 'timestampNow';
-            readonly kind: 'generator';
-            readonly params: { readonly precision: 3 };
-          };
-          readonly ref: {
-            readonly entry: 'Customer';
-            readonly field: 'createdAt';
-            readonly namespace: 'public';
-          };
-        },
-        {
-          readonly onCreate: { readonly id: 'uuidv7'; readonly kind: 'generator' };
-          readonly ref: {
-            readonly entry: 'Customer';
-            readonly field: 'id';
-            readonly namespace: 'public';
-          };
-        },
-        {
-          readonly onUpdate: {
-            readonly id: 'timestampNow';
-            readonly kind: 'generator';
-            readonly params: { readonly precision: 3 };
-          };
-          readonly ref: {
-            readonly entry: 'Customer';
             readonly field: 'updatedAt';
             readonly namespace: 'public';
           };

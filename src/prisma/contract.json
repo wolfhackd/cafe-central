@@ -8,10 +8,6 @@
       "model": "Category",
       "namespace": "public"
     },
-    "Customer": {
-      "model": "Customer",
-      "namespace": "public"
-    },
     "Employee": {
       "model": "Employee",
       "namespace": "public"
@@ -167,109 +163,6 @@
               "table": "Category"
             }
           },
-          "Customer": {
-            "fields": {
-              "address": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
-                }
-              },
-              "createdAt": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/timestamptz-date@1",
-                  "kind": "scalar",
-                  "typeParams": {
-                    "precision": 3
-                  }
-                }
-              },
-              "email": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
-                }
-              },
-              "id": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/uuid@1",
-                  "kind": "scalar"
-                }
-              },
-              "name": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
-                }
-              },
-              "password": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
-                }
-              },
-              "updatedAt": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/timestamptz-date@1",
-                  "kind": "scalar",
-                  "typeParams": {
-                    "precision": 3
-                  }
-                }
-              }
-            },
-            "relations": {
-              "Orders": {
-                "cardinality": "1:N",
-                "on": {
-                  "localFields": [
-                    "id"
-                  ],
-                  "targetFields": [
-                    "customerId"
-                  ]
-                },
-                "to": {
-                  "model": "Order",
-                  "namespace": "public"
-                }
-              }
-            },
-            "storage": {
-              "fields": {
-                "address": {
-                  "column": "address"
-                },
-                "createdAt": {
-                  "column": "createdAt"
-                },
-                "email": {
-                  "column": "email"
-                },
-                "id": {
-                  "column": "id"
-                },
-                "name": {
-                  "column": "name"
-                },
-                "password": {
-                  "column": "password"
-                },
-                "updatedAt": {
-                  "column": "updatedAt"
-                }
-              },
-              "namespaceId": "public",
-              "table": "Customer"
-            }
-          },
           "Employee": {
             "fields": {
               "createdAt": {
@@ -375,13 +268,6 @@
                   }
                 }
               },
-              "customerId": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/uuid@1",
-                  "kind": "scalar"
-                }
-              },
               "id": {
                 "nullable": false,
                 "type": {
@@ -430,22 +316,6 @@
                   "namespace": "public"
                 }
               },
-              "customer": {
-                "cardinality": "N:1",
-                "nullable": false,
-                "on": {
-                  "localFields": [
-                    "customerId"
-                  ],
-                  "targetFields": [
-                    "id"
-                  ]
-                },
-                "to": {
-                  "model": "Customer",
-                  "namespace": "public"
-                }
-              },
               "payment": {
                 "cardinality": "1:1",
                 "nullable": true,
@@ -467,9 +337,6 @@
               "fields": {
                 "createdAt": {
                   "column": "createdAt"
-                },
-                "customerId": {
-                  "column": "customerId"
                 },
                 "id": {
                   "column": "id"
@@ -893,73 +760,6 @@
               },
               "uniques": []
             },
-            "Customer": {
-              "columns": {
-                "address": {
-                  "codecId": "pg/text@1",
-                  "dataType": "pg/text",
-                  "nullable": false
-                },
-                "createdAt": {
-                  "codecId": "pg/timestamptz-date@1",
-                  "dataType": "pg/timestamptz",
-                  "default": {
-                    "expression": "now()",
-                    "kind": "function"
-                  },
-                  "nullable": false,
-                  "typeParams": {
-                    "precision": 3
-                  }
-                },
-                "email": {
-                  "codecId": "pg/text@1",
-                  "dataType": "pg/text",
-                  "nullable": false
-                },
-                "id": {
-                  "codecId": "pg/uuid@1",
-                  "dataType": "pg/uuid",
-                  "nullable": false
-                },
-                "name": {
-                  "codecId": "pg/text@1",
-                  "dataType": "pg/text",
-                  "nullable": false
-                },
-                "password": {
-                  "codecId": "pg/text@1",
-                  "dataType": "pg/text",
-                  "nullable": false
-                },
-                "updatedAt": {
-                  "codecId": "pg/timestamptz-date@1",
-                  "dataType": "pg/timestamptz",
-                  "default": {
-                    "expression": "now()",
-                    "kind": "function"
-                  },
-                  "nullable": false,
-                  "typeParams": {
-                    "precision": 3
-                  }
-                }
-              },
-              "foreignKeys": [],
-              "indexes": [],
-              "primaryKey": {
-                "columns": [
-                  "id"
-                ]
-              },
-              "uniques": [
-                {
-                  "columns": [
-                    "email"
-                  ]
-                }
-              ]
-            },
             "Employee": {
               "checks": [
                 {
@@ -1054,11 +854,6 @@
                     "precision": 3
                   }
                 },
-                "customerId": {
-                  "codecId": "pg/uuid@1",
-                  "dataType": "pg/uuid",
-                  "nullable": false
-                },
                 "id": {
                   "codecId": "pg/uuid@1",
                   "dataType": "pg/uuid",
@@ -1087,37 +882,8 @@
                   }
                 }
               },
-              "foreignKeys": [
-                {
-                  "index": {
-                    "name": "Order_customerId_idx_b2a8a46c"
-                  },
-                  "source": {
-                    "columns": [
-                      "customerId"
-                    ],
-                    "namespaceId": "public",
-                    "tableName": "Order"
-                  },
-                  "target": {
-                    "columns": [
-                      "id"
-                    ],
-                    "namespaceId": "public",
-                    "tableName": "Customer"
-                  }
-                }
-              ],
-              "indexes": [
-                {
-                  "columns": [
-                    "customerId"
-                  ],
-                  "name": "Order_customerId_idx_b2a8a46c",
-                  "prefix": "Order_customerId_idx",
-                  "unique": false
-                }
-              ],
+              "foreignKeys": [],
+              "indexes": [],
               "primaryKey": {
                 "columns": [
                   "id"
@@ -1471,10 +1237,10 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "e98a9147e3d39a69780a1b5d6fd3f51b5f29d5e8862304f5f1f8c02ddec66106"
+    "storageHash": "bfd56fb9ecb9cfaf58bc51a127cac92f9056cebcb72f4493efdc5e1d7a7a625a"
   },
   "execution": {
-    "executionHash": "0997782d8ec9f4a20553ea42631666fee8cf8cddf7e63e8783327c5374d1271f",
+    "executionHash": "06654deed27fefcc9584a45c168af01b0e3fca1f23119438c544de58642b5369",
     "mutations": {
       "defaults": [
         {
@@ -1512,45 +1278,6 @@
           },
           "ref": {
             "entry": "Category",
-            "field": "updatedAt",
-            "namespace": "public"
-          }
-        },
-        {
-          "onCreate": {
-            "id": "timestampNow",
-            "kind": "generator",
-            "params": {
-              "precision": 3
-            }
-          },
-          "ref": {
-            "entry": "Customer",
-            "field": "createdAt",
-            "namespace": "public"
-          }
-        },
-        {
-          "onCreate": {
-            "id": "uuidv7",
-            "kind": "generator"
-          },
-          "ref": {
-            "entry": "Customer",
-            "field": "id",
-            "namespace": "public"
-          }
-        },
-        {
-          "onUpdate": {
-            "id": "timestampNow",
-            "kind": "generator",
-            "params": {
-              "precision": 3
-            }
-          },
-          "ref": {
-            "entry": "Customer",
             "field": "updatedAt",
             "namespace": "public"
           }

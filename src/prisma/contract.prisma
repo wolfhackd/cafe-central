@@ -28,27 +28,26 @@ model Employee {
   updatedAt DateTime @default(now()) @onUpdate(now())
 }
 
-model Customer {
-  id        Uuid     @id @onCreate(uuid(7))
-  name      String
-  email     String   @unique
-  password  String
-  address   String
-  createdAt DateTime @default(now()) @onCreate(now())
-  updatedAt DateTime @default(now()) @onUpdate(now())
+// model Customer {
+//   id        Uuid     @id @onCreate(uuid(7))
+//   name      String
+//   email     String   @unique
+//   password  String
+//   address   String
+//   createdAt DateTime @default(now()) @onCreate(now())
+//   updatedAt DateTime @default(now()) @onUpdate(now())
 
-  Orders    Order[]
-}
-
+//   Orders    Order[]
+// }
 model Order {
   id          Uuid        @id @onCreate(uuid(7))
-  customerId  Uuid
+  // customerId  Uuid
   totalAmount Decimal
   status      String
   createdAt   DateTime    @default(now()) @onCreate(now())
   updatedAt   DateTime    @default(now()) @onUpdate(now())
 
-  customer    Customer    @relation(fields: [customerId], references: [id])
+  // customer    Customer    @relation(fields: [customerId], references: [id])
   OrderItems  OrderItem[]
   payment     Payment?
 }
