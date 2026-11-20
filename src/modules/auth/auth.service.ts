@@ -5,6 +5,7 @@ import { EmployeeRepository } from "../employee/employee.repository.js";
 import { PASSWORD_HASHER } from "../../lib/PasswordHasher/bcrypt-password-hasher.module.js";
 import type { PasswordHasher } from "../../lib/PasswordHasher/interface.js";
 import { Employee } from "../employee/interfaces.js";
+import { Role } from "./enums/role.enum.js";
 
 
 
@@ -34,7 +35,7 @@ export class AuthService implements AuthInterface {
         const payload = {
             sub: employee.id,
             email: employee.email,
-            role: employee.role
+            role: employee.role as Role
         }
 
         const accessToken = await this.jwtService.signAsync(payload);
@@ -45,7 +46,7 @@ export class AuthService implements AuthInterface {
                 id: employee.id,
                 name: employee.name,
                 email: employee.email,
-                role: employee.role,
+                role: employee.role as Role,
             }
         }
 

@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty, IsString } from "class-validator";
+import { Role } from "./enums/role.enum";
 
 export interface Login{
     email: string;
@@ -21,7 +22,7 @@ export interface LoginResponse{
         id: string;
         name: string;
         email: string;
-        role: string;
+        role: Role;
     };
 }
 
