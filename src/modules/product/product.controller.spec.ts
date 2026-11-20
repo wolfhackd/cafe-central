@@ -1,4 +1,4 @@
-import { BadRequestException, StandardSchemaValidationPipe } from '@nestjs/common';
+import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import type { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
@@ -7,7 +7,7 @@ import { ProductService } from './product.service.js';
 import { ProductRepository } from './product.repository.js';
 import { CategoryRepository } from '../category/category.repository.js';
 import type { Product } from './interfaces.js';
-import { createProductSchema } from './interfaces.js';
+import { CreateProductDto } from './interfaces.js';
 
 describe('ProductController', () => {
     let controller: ProductController;
@@ -66,7 +66,7 @@ describe('ProductController', () => {
 
     it('validates and normalizes a valid product body', async () => {
         const product: Product = {
-            id: 'product-id',
+            id: '550e8400-e29b-41d4-a716-446655440001',
             name: 'Coffee',
             description: 'Espresso',
             price: 2.5,
@@ -75,7 +75,11 @@ describe('ProductController', () => {
         };
         createProduct.mockResolvedValue(product);
 
-        const pipe = new StandardSchemaValidationPipe();
+        const pipe = new ValidationPipe({
+            whitelist: true,
+            forbidNonWhitelisted: true,
+            transform: true,
+        });
         const validatedBody = await pipe.transform(
             {
                 name: ' Coffee ',
@@ -84,7 +88,7 @@ describe('ProductController', () => {
                 categoryId: '550e8400-e29b-41d4-a716-446655440000',
                 imageUrl: ' https://example.com/coffee.jpg ',
             },
-            { type: 'body', schema: createProductSchema },
+            { type: 'body', metatype: CreateProductDto, data: undefined },
         );
 
         await expect(controller.createProduct(validatedBody)).resolves.toBe(product);
@@ -98,7 +102,11 @@ describe('ProductController', () => {
     });
 
     it('rejects malformed decimal strings in the request schema', async () => {
-        const pipe = new StandardSchemaValidationPipe();
+        const pipe = new ValidationPipe({
+            whitelist: true,
+            forbidNonWhitelisted: true,
+            transform: true,
+        });
 
         await expect(
             pipe.transform(
@@ -109,7 +117,7 @@ describe('ProductController', () => {
                     categoryId: '550e8400-e29b-41d4-a716-446655440000',
                     imageUrl: 'https://example.com/coffee.jpg',
                 },
-                { type: 'body', schema: createProductSchema },
+                { type: 'body', metatype: CreateProductDto, data: undefined },
             ),
         ).rejects.toThrow();
 
@@ -117,7 +125,11 @@ describe('ProductController', () => {
     });
 
     it('rejects zero price in the service', async () => {
-        const pipe = new StandardSchemaValidationPipe();
+        const pipe = new ValidationPipe({
+            whitelist: true,
+            forbidNonWhitelisted: true,
+            transform: true,
+        });
         const validatedBody = await pipe.transform(
             {
                 name: 'Coffee',
@@ -126,7 +138,7 @@ describe('ProductController', () => {
                 categoryId: '550e8400-e29b-41d4-a716-446655440000',
                 imageUrl: 'https://example.com/coffee.jpg',
             },
-            { type: 'body', schema: createProductSchema },
+            { type: 'body', metatype: CreateProductDto, data: undefined },
         );
 
         await expect(controller.createProduct(validatedBody)).rejects.toBeInstanceOf(BadRequestException);
@@ -135,7 +147,7 @@ describe('ProductController', () => {
 
     it('returns a product by ID', async () => {
         const product: Product = {
-            id: 'product-id',
+            id: '550e8400-e29b-41d4-a716-446655440001',
             name: 'Coffee',
             description: 'Espresso',
             price: 2.5,
@@ -145,7 +157,7 @@ describe('ProductController', () => {
         findProductById.mockResolvedValue(product);
 
         await request(app.getHttpServer())
-            .get('/product/product-id')
+            .get('/product/550e8400-e29b-41d4-a716-446655440001')
             .expect(200, product);
     });
 
@@ -153,23 +165,23 @@ describe('ProductController', () => {
         findProductById.mockResolvedValue(null);
 
         await request(app.getHttpServer())
-            .get('/product/missing-id')
+            .get('/product/550e8400-e29b-41d4-a716-446655440002')
             .expect(404);
     });
 
     it('deletes an existing product', async () => {
         await request(app.getHttpServer())
-            .delete('/product/product-id')
+            .delete('/product/550e8400-e29b-41d4-a716-446655440001')
             .expect(200);
 
-        expect(deleteProductById).toHaveBeenCalledWith('product-id');
+        expect(deleteProductById).toHaveBeenCalledWith('550e8400-e29b-41d4-a716-446655440001');
     });
 
     it('returns 404 when deleting a product ID that does not exist', async () => {
         deleteProductById.mockResolvedValue(false);
 
         await request(app.getHttpServer())
-            .delete('/product/missing-id')
+            .delete('/product/550e8400-e29b-41d4-a716-446655440002')
             .expect(404);
     });
 });

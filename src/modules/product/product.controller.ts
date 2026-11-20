@@ -4,11 +4,12 @@ import {
     Delete,
     Get,
     Param,
+    ParseUUIDPipe,
     Post,
-    StandardSchemaValidationPipe,
+    ValidationPipe,
 } from "@nestjs/common";
-import { createProductSchema } from "./interfaces.js";
-import type { CreateProductInput, Product } from "./interfaces.js";
+import type { Product } from "./interfaces.js";
+import { CreateProductDto } from "./interfaces.js";
 import { ProductService } from "./product.service.js";
 
 @Controller("/product")
@@ -17,17 +18,20 @@ export class ProductController {
 
     @Post()
     async createProduct(
-        @Body({
-            schema: createProductSchema,
-            pipes: [new StandardSchemaValidationPipe()],
-        })
-        body: CreateProductInput,
+        @Body(new ValidationPipe({
+            whitelist: true,
+            forbidNonWhitelisted: true,
+            transform: true,
+        }))
+        body: CreateProductDto,
     ): Promise<Product> {
         return this.productService.createProduct(body);
     }
 
     @Get(":id")
-    async findProductById(@Param("id") id: string): Promise<Product> {
+    async findProductById(
+        @Param("id", new ParseUUIDPipe()) id: string,
+    ): Promise<Product> {
         return this.productService.findProductById(id);
     }
 
@@ -37,7 +41,9 @@ export class ProductController {
     }
 
     @Delete(":id")
-    async deleteProductById(@Param("id") id: string): Promise<void> {
+    async deleteProductById(
+        @Param("id", new ParseUUIDPipe()) id: string,
+    ): Promise<void> {
         await this.productService.deleteProductById(id);
     }
     

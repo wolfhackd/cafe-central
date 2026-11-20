@@ -7,24 +7,25 @@ Sistema de gerenciamento de vendas e pedidos para um café.
 
 # Segurança e Autenticação
 - [x] Implementação do hash de senhas
+- [x] Implementação do AuthGuard
 
 # Category
 - [x] Módulo Category
-- [x] Listar Categorias
-- [x] Criar Categorias
-- [x] Apagar Categoria
+- [x] Listar Categorias(Get)
+- [x] Criar Categorias(Post)
+- [x] Apagar Categoria(Delete)
 
 # Product
 
 -[x] Módulo de Produto
--[x] Criação de Produto
--[x] Listar Produtos
--[x] Buscar Produto por identificador
--[x] Apagar Produto
+-[x] Criação de Produto(Post)
+-[x] Listar Produtos(Get)
+-[x] Buscar Produto por identificador(Get)
+-[x] Apagar Produto(Delete)
 
 # Employee
 - [x] Módulo Employee
-- [x] Criação de Employee
+- [x] Criação de Employee(Post)
 
 ---------------------------------------------------
 ## Ideias

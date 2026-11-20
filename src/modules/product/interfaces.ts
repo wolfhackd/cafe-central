@@ -1,14 +1,32 @@
-import { z } from 'zod';
+import { Transform } from 'class-transformer';
+import { IsNotEmpty, IsString, IsUUID, Matches } from 'class-validator';
 
-export const createProductSchema = z.object({
-    name: z.string().trim().min(1),
-    description: z.string().trim().min(1),
-    price: z.string().trim().regex(/^\d+(?:\.\d+)?$/),
-    categoryId: z.string().uuid(),
-    imageUrl: z.string().trim().min(1),
-}).strict();
+export class CreateProductDto {
+    @Transform(({ value }) => typeof value === 'string' ? value.trim() : value)
+    @IsString()
+    @IsNotEmpty()
+    name: string;
 
-export type CreateProductInput = z.infer<typeof createProductSchema>;
+    @Transform(({ value }) => typeof value === 'string' ? value.trim() : value)
+    @IsString()
+    @IsNotEmpty()
+    description: string;
+
+    @Transform(({ value }) => typeof value === 'string' ? value.trim() : value)
+    @IsString()
+    @Matches(/^\d+(?:\.\d+)?$/, { message: 'Price must be a decimal number' })
+    price: string;
+
+    @IsUUID()
+    categoryId: string;
+
+    @Transform(({ value }) => typeof value === 'string' ? value.trim() : value)
+    @IsString()
+    @IsNotEmpty()
+    imageUrl: string;
+}
+
+export type CreateProductInput = CreateProductDto;
 
 export interface Product {
     id: string;
@@ -18,20 +36,3 @@ export interface Product {
     categoryId: string;
     imageUrl: string;
 }
-
-export interface Product {
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    categoryId: string;
-    imageUrl: string;
-}
-
-// export interface CreateProductInput {
-//     name: string;
-//     description: string;
-//     price: string;
-//     categoryId: string;
-//     imageUrl: string;
-// }

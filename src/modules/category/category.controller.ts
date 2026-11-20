@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CategoryService } from './category.service.js';
-import { CategorySummary } from './interfaces.js';
+import { CategorySummary, CreateCategoryDto, DeleteCategoryDto } from './interfaces.js';
 
 
 @Controller("/category")
@@ -13,12 +13,12 @@ export class CategoryController {
     }
 
     @Post()
-    async createCategory(@Body() body: { name: string }): Promise<CategorySummary[]> {
+    async createCategory(@Body() body: CreateCategoryDto): Promise<CategorySummary[]> {
         return await this.categoryService.createCategory(body.name);
     }
 
     @Post("/delete")
-    async deleteCategory(@Body() body: { id: string }): Promise<void> {
+    async deleteCategory(@Body() body: DeleteCategoryDto): Promise<void> {
         return await this.categoryService.deleteCategoryById(body.id);
     }
 }
