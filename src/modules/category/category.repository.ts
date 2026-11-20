@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "../prisma/prisma.service.js";
+import { PrismaService } from "../../prisma/prisma.service.js";
 import type { CategoryRepositoryInterface } from "./category.repository.interface.js";
 import type { CategorySummary } from "./interfaces.js";
 

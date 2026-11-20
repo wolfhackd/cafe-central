@@ -1,30 +1,15 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
-import { CategoryController } from './category/category.controller.js';
-import { CategoryService } from './category/category.service.js';
-import { PrismaService } from './prisma/prisma.service.js';
-import { CategoryRepository } from './category/category.repository.js';
-import { ProductController } from './product/product.controller.js';
-import { ProductRepository } from './product/product.repository.js';
-import { ProductService } from './product/product.service.js';
-import { EmployeeController } from './employee/employee.controller.js';
-import { EmployeeRepository } from './employee/employee.repository.js';
-import { EmployeeService } from './employee/employee.service.js';
-import { PasswordHasherModule } from './lib/PasswordHasher/bcrypt-password-hasher.module.js';
+import { AuthModule } from './modules/auth/auth.module.js';
+import { CategoryModule } from './modules/category/category.module.js';
+import { EmployeeModule } from './modules/employee/employee.module.js';
+import { OrderItemModule } from './modules/orderItem/orderItem.module.js';
+import { ProductModule } from './modules/product/product.module.js';
 
 @Module({
-  imports: [PasswordHasherModule],
-  controllers: [AppController, CategoryController, ProductController, EmployeeController],
-  providers: [
-    AppService,
-    CategoryService,
-    ProductService,
-    PrismaService,
-    EmployeeService,
-    CategoryRepository,
-    ProductRepository,
-    EmployeeRepository
-  ],
+  imports: [AuthModule, CategoryModule, EmployeeModule, OrderItemModule, ProductModule],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

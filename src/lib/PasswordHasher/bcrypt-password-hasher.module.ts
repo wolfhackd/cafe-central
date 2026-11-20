@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { BcryptPasswordHasher } from "./bcrypt-password-hasher.js";
+import { BcryptPasswordHasher } from "./strategies/bcrypt-password-hasher.strategy.js";
 
 
 export const PASSWORD_HASHER = Symbol('PASSWORD_HASHER');

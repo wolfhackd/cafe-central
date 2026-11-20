@@ -1,4 +1,4 @@
-import { PasswordHasher } from "./interface.js";
+import { PasswordHasher } from "../interface.js";
 import bcrypt from 'bcrypt';
 
 export class BcryptPasswordHasher

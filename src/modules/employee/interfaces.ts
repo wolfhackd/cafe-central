@@ -31,7 +31,8 @@ export interface Employee{
     name: string;
     email: string;
     role: EmployeeRole;
+    password: string;
     id: string;
     createdAt: Date;
     updatedAt: Date;
-}
+} 

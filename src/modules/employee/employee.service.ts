@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable } from "@nestjs/common";
 import { EmployeeRepository } from "./employee.repository.js";
-import type { PasswordHasher } from "../lib/PasswordHasher/interface.js";
-import { PASSWORD_HASHER } from "../lib/PasswordHasher/bcrypt-password-hasher.module.js";
+import type { PasswordHasher } from "../../lib/PasswordHasher/interface.js";
+import { PASSWORD_HASHER } from "../../lib/PasswordHasher/bcrypt-password-hasher.module.js";
 import { CreateEmployeeInput, Employee } from "./interfaces.js";
 
 @Injectable()
@@ -27,15 +27,7 @@ export class EmployeeService {
 
         if(res){
             
-            const response = {
-                name:res.name,
-                email:res.email,
-                role:res.role,
-                id:res.id,
-                createdAt:res.createdAt,
-                updatedAt:res.updatedAt,
-            }
-            return response;
+            return res
         }
         throw new BadRequestException('Failed to create employee');
     }

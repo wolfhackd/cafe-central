@@ -1,10 +1,11 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "../prisma/prisma.service.js";
+import { PrismaService } from "../../prisma/prisma.service.js";
 import { CreateEmployeeDto, Employee } from "./interfaces.js";
+import { EmployeeRepositoryInterface } from "./employee.repository.interface.js";
 
 
 @Injectable()
-export class EmployeeRepository {
+export class EmployeeRepository implements EmployeeRepositoryInterface {
     constructor(private readonly prisma: PrismaService){}
 
     async createEmployee(createEmployeeDto:CreateEmployeeDto): Promise<Employee>{
@@ -15,13 +16,10 @@ export class EmployeeRepository {
             password:createEmployeeDto.password,
         })
 
-        return {
-            name:res.name,
-            email:res.email,
-            role:res.role,
-            id:res.id,
-            createdAt:res.createdAt,
-            updatedAt:res.updatedAt,
-        }
+        return res
+    }
+
+    async findByEmail(email:string): Promise<Employee | null> {
+        return await this.prisma.db.orm.public.Employee.where({email}).first();
     }
 }
