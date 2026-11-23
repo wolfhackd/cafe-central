@@ -27,7 +27,13 @@ Sistema de gerenciamento de vendas e pedidos para um café.
 - [x] Módulo Employee
 - [x] Criação de Employee(Post)
 
+# OrderItem
+- [x] Adicionar produto e quantidade a uma ordem (POST /order/:orderId/items)
+- [x] Alterar a quantidade ou remover item de ordem WAITING
+- [x] Excluir ordem WAITING sem pagamento associado
+
 ---------------------------------------------------
+
 ## Ideias
 
 - Eu posso criar um operador apenas para o online(Employee Role, E o nome: Online).

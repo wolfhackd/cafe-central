@@ -42,9 +42,9 @@ Os níveis de acesso e as ações permitidas para cada perfil devem ser definido
 | RF15 | MVP 1 | Produtos | Média | O sistema deve permitir cadastrar e editar categorias de produtos. | Não implementado (a considerar) |
 | RF16 | MVP 1 | Produtos | Média | O sistema deve permitir adicionar e atualizar imagens dos produtos e exibi-las no catálogo. | Não implementado (a considerar) |
 | RF17 | MVP 2 | Pedidos | Alta | O sistema deve permitir criar pedidos para um cliente ou registrar um pedido atendido por um funcionário. | Não implementado |
-| RF18 | MVP 2 | Pedidos | Alta | O sistema deve permitir adicionar produtos e quantidades a um pedido. | Não implementado |
-| RF19 | MVP 2 | Pedidos | Alta | O sistema deve permitir alterar ou remover itens de um pedido antes da confirmação. | Não implementado |
-| RF20 | MVP 2 | Pedidos | Alta | O sistema deve calcular o subtotal dos itens e o valor total do pedido. | Não implementado |
+| RF18 | MVP 2 | Pedidos | Alta | O sistema deve permitir adicionar produtos e quantidades a um pedido. | Implementado |
+| RF19 | MVP 2 | Pedidos | Alta | O sistema deve permitir alterar ou remover itens de um pedido antes da confirmação. | Implementado para ordens WAITING |
+| RF20 | MVP 2 | Pedidos | Alta | O sistema deve calcular o subtotal dos itens e o valor total do pedido. | Implementado na adição, edição e remoção de itens |
 | RF21 | MVP 2 | Pedidos | Alta | O sistema deve impedir a inclusão de produtos indisponíveis. | Não implementado |
 | RF22 | MVP 2 | Pedidos | Alta | O sistema deve permitir consultar pedidos e o histórico de pedidos do cliente. | Não implementado |
 | RF23 | MVP 2 | Pedidos | Alta | O sistema deve permitir acompanhar e atualizar o status do pedido. | Não implementado |
