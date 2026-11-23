@@ -23,7 +23,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'bfd56fb9ecb9cfaf58bc51a127cac92f9056cebcb72f4493efdc5e1d7a7a625a'>;
+  StorageHashBase<'2b8bd276934bebb97ca3d4dc3b4ec0678a06243084d7883cbf485df3d0a79640'>;
 export type ExecutionHash =
   ExecutionHashBase<'06654deed27fefcc9584a45c168af01b0e3fca1f23119438c544de58642b5369'>;
 export type ProfileHash =
@@ -284,6 +284,12 @@ type FieldTypeOverrides = {
           readonly input: 'ADMIN' | 'EMPLOYEE';
         };
       };
+      readonly Order: {
+        readonly status: {
+          readonly output: 'WAITING' | 'IN_PREPARATION' | 'COMPLETE';
+          readonly input: 'WAITING' | 'IN_PREPARATION' | 'COMPLETE';
+        };
+      };
       readonly Payment: {
         readonly paymentMethod: {
           readonly output: 'CREDIT_CARD' | 'DEBIT_CARD' | 'PIX' | 'CASH';
@@ -319,6 +325,12 @@ type ColumnTypeOverrides = {
       readonly role: {
         readonly output: 'ADMIN' | 'EMPLOYEE';
         readonly input: 'ADMIN' | 'EMPLOYEE';
+      };
+    };
+    readonly Order: {
+      readonly status: {
+        readonly output: 'WAITING' | 'IN_PREPARATION' | 'COMPLETE';
+        readonly input: 'WAITING' | 'IN_PREPARATION' | 'COMPLETE';
       };
     };
     readonly Payment: {
@@ -553,6 +565,10 @@ type ContractBase = Omit<
                   readonly dataType: 'pg/text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/text@1', 'WAITING'>;
+                  };
                   readonly many: false;
                 };
                 readonly totalAmount: {
@@ -815,6 +831,10 @@ type ContractBase = Omit<
             };
           };
           readonly valueSet: {
+            readonly OrderStatus: {
+              readonly kind: 'valueSet';
+              readonly values: readonly ['WAITING', 'IN_PREPARATION', 'COMPLETE'];
+            };
             readonly PaymentMethod: {
               readonly kind: 'valueSet';
               readonly values: readonly ['CREDIT_CARD', 'DEBIT_CARD', 'PIX', 'CASH'];
@@ -1242,6 +1262,14 @@ type ContractBase = Omit<
           };
         };
         readonly enum: {
+          readonly OrderStatus: {
+            readonly codecId: 'pg/text@1';
+            readonly members: readonly [
+              { readonly name: 'WAITING'; readonly value: 'WAITING' },
+              { readonly name: 'IN_PREPARATION'; readonly value: 'IN_PREPARATION' },
+              { readonly name: 'COMPLETE'; readonly value: 'COMPLETE' },
+            ];
+          };
           readonly PaymentMethod: {
             readonly codecId: 'pg/text@1';
             readonly members: readonly [
@@ -1269,6 +1297,11 @@ type ContractBase = Omit<
           };
         };
         readonly enumMemberTypes?: {
+          readonly OrderStatus: readonly [
+            { readonly name: 'WAITING'; readonly value: 'WAITING' },
+            { readonly name: 'IN_PREPARATION'; readonly value: 'IN_PREPARATION' },
+            { readonly name: 'COMPLETE'; readonly value: 'COMPLETE' },
+          ];
           readonly PaymentMethod: readonly [
             { readonly name: 'CREDIT_CARD'; readonly value: 'CREDIT_CARD' },
             { readonly name: 'DEBIT_CARD'; readonly value: 'DEBIT_CARD' },

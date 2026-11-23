@@ -33,6 +33,23 @@
     "namespaces": {
       "public": {
         "enum": {
+          "OrderStatus": {
+            "codecId": "pg/text@1",
+            "members": [
+              {
+                "name": "WAITING",
+                "value": "WAITING"
+              },
+              {
+                "name": "IN_PREPARATION",
+                "value": "IN_PREPARATION"
+              },
+              {
+                "name": "COMPLETE",
+                "value": "COMPLETE"
+              }
+            ]
+          },
           "PaymentMethod": {
             "codecId": "pg/text@1",
             "members": [
@@ -280,6 +297,12 @@
                 "type": {
                   "codecId": "pg/text@1",
                   "kind": "scalar"
+                },
+                "valueSet": {
+                  "entityKind": "enum",
+                  "entityName": "OrderStatus",
+                  "namespaceId": "public",
+                  "plane": "domain"
                 }
               },
               "totalAmount": {
@@ -841,6 +864,13 @@
               ]
             },
             "Order": {
+              "checks": [
+                {
+                  "expression": "\"status\" IN ('WAITING', 'IN_PREPARATION', 'COMPLETE')",
+                  "name": "Order_status_check_7bdc2957",
+                  "prefix": "Order_status_check"
+                }
+              ],
               "columns": {
                 "createdAt": {
                   "codecId": "pg/timestamptz-date@1",
@@ -862,7 +892,17 @@
                 "status": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
-                  "nullable": false
+                  "default": {
+                    "kind": "literal",
+                    "value": "WAITING"
+                  },
+                  "nullable": false,
+                  "valueSet": {
+                    "entityKind": "valueSet",
+                    "entityName": "OrderStatus",
+                    "namespaceId": "public",
+                    "plane": "storage"
+                  }
                 },
                 "totalAmount": {
                   "codecId": "pg/numeric@1",
@@ -1206,6 +1246,14 @@
             }
           },
           "valueSet": {
+            "OrderStatus": {
+              "kind": "valueSet",
+              "values": [
+                "WAITING",
+                "IN_PREPARATION",
+                "COMPLETE"
+              ]
+            },
             "PaymentMethod": {
               "kind": "valueSet",
               "values": [
@@ -1237,7 +1285,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "bfd56fb9ecb9cfaf58bc51a127cac92f9056cebcb72f4493efdc5e1d7a7a625a"
+    "storageHash": "2b8bd276934bebb97ca3d4dc3b4ec0678a06243084d7883cbf485df3d0a79640"
   },
   "execution": {
     "executionHash": "06654deed27fefcc9584a45c168af01b0e3fca1f23119438c544de58642b5369",

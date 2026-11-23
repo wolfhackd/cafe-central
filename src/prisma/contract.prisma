@@ -18,6 +18,12 @@ enum Role {
   EMPLOYEE
 }
 
+enum OrderStatus {
+  WAITING
+  IN_PREPARATION
+  COMPLETE
+}
+
 model Employee {
   id        Uuid     @id @onCreate(uuid(7))
   name      String
@@ -43,7 +49,7 @@ model Order {
   id          Uuid        @id @onCreate(uuid(7))
   // customerId  Uuid
   totalAmount Decimal
-  status      String
+  status      OrderStatus @default(WAITING)
   createdAt   DateTime    @default(now()) @onCreate(now())
   updatedAt   DateTime    @default(now()) @onUpdate(now())
 
