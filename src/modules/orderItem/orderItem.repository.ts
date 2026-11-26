@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import type { OrderItemRepositoryInterface } from "./ordermItem.repository.interface.js";
+import type { OrderItemRepositoryInterface } from "./orderItem.repository.interface.js";
 import { PrismaService } from "../../prisma/prisma.service.js";
 import type {
     AddOrderItemResult,
