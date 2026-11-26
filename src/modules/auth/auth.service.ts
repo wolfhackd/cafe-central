@@ -4,9 +4,13 @@ import { JwtService } from '@nestjs/jwt'
 import { EmployeeRepository } from "../employee/employee.repository.js";
 import { PASSWORD_HASHER } from "../../lib/PasswordHasher/bcrypt-password-hasher.module.js";
 import type { PasswordHasher } from "../../lib/PasswordHasher/interface.js";
-import { Employee } from "../employee/interfaces.js";
+import { Employee, EmployeeRole } from "../employee/interfaces.js";
 import { Role } from "./enums/role.enum.js";
 
+const AUTH_ROLE_BY_EMPLOYEE_ROLE: Record<EmployeeRole, Role> = {
+    ADMIN: Role.ADMIN,
+    EMPLOYEE: Role.EMPLOYEE,
+};
 
 
 @Injectable()
@@ -32,10 +36,11 @@ export class AuthService implements AuthInterface {
             throw new UnauthorizedException('Invalid credentials or user not found');
         }
 
+        const role = AUTH_ROLE_BY_EMPLOYEE_ROLE[employee.role];
         const payload = {
             sub: employee.id,
             email: employee.email,
-            role: employee.role as Role
+            role,
         }
 
         const accessToken = await this.jwtService.signAsync(payload);
@@ -46,7 +51,7 @@ export class AuthService implements AuthInterface {
                 id: employee.id,
                 name: employee.name,
                 email: employee.email,
-                role: employee.role as Role,
+                role,
             }
         }
 
