@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "../../prisma/prisma.service";
-import { Order } from "./interfaces";
-import { OrderRepositoryInterface } from "./order.repository.interface";
+import { PrismaService } from "../../prisma/prisma.service.js";
+import { Order } from "./interfaces.js";
+import { OrderRepositoryInterface } from "./order.repository.interface.js";
 
 
 @Injectable()
@@ -19,7 +19,7 @@ export class OrderRepository implements OrderRepositoryInterface {
     }
 
     async findOrderById(orderId: string): Promise<Order | null> {
-        return await this.prisma.db.orm.public.Order.where({ id: orderId }).first();
+        return await this.prisma.db.orm.public.Order.whereUnique({ id: orderId }).include('payment').first();
     }
 
     
